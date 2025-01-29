@@ -21,12 +21,12 @@ jobs:
         with:
           dotnet-version: 8.0.x
 
-      - name: Restore Dependencies
-        run: dotnet restore TaskManagementAPI.sln || echo "Dependency restore failed, continuing with tests"
+      - name: Restore Dependencies (Fixes Missing Assemblies)
+        run: dotnet restore --force TaskManagementAPI.sln
 
-      - name: Install Missing Packages (Fix Newtonsoft.Json Issue)
-        run: dotnet add package Newtonsoft.Json --version 13.0.1
-        working-directory: TaskManagementAPI
+      - name: Install Missing Test Dependencies (Fix TestPlatform Issue)
+        run: dotnet add package Microsoft.TestPlatform --version 17.11.1
+        working-directory: TaskManagementAPI.Tests
 
       - name: Build the Application (Ignore Failures)
         run: dotnet build TaskManagementAPI.sln --no-restore || echo "Build failed, continuing with tests"
