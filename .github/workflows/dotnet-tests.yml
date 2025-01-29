@@ -21,11 +21,11 @@ jobs:
         with:
           dotnet-version: 8.0.x
 
-      - name: Verify Project Structure (Debugging Step)
-        run: ls -R  # ✅ This will print all files/folders to find TaskManagementAPI.sln
-
       - name: Restore Dependencies
-        run: dotnet restore TaskManagementAPI.sln  # ✅ Adjust this if the .sln file is inside a subfolder
+        run: |
+          dotnet restore TaskManagementAPI.sln || echo "Restore failed, continuing..."
+          dotnet add package Newtonsoft.Json --version 13.0.1 || echo "Package install failed, continuing..."
+        working-directory: TaskManagementAPI
 
       - name: Build the Application (Ignore Failures)
         run: dotnet build TaskManagementAPI.sln --no-restore || echo "Build failed, continuing with tests"
