@@ -21,7 +21,7 @@ dotnet run
 
 
 3. Access API Documentation:
-Open https://localhost:<port>/swagger in your browser.
+Open https://localhost:port/swagger in your browser.
 
 
 
