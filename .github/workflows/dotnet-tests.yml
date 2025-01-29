@@ -21,14 +21,17 @@ jobs:
         with:
           dotnet-version: 8.0.x
 
-      - name: Restore Dependencies (Ensure Newtonsoft.Json is Installed)
-        run: |
-          dotnet restore TaskManagementAPI.sln
-          dotnet add package Newtonsoft.Json --version 13.0.1
-        working-directory: TaskManagementAPI
+      - name: Verify Project Structure
+        run: ls -R  # ✅ This will list all files to confirm the .sln file location
+
+      - name: Restore Dependencies (Fix Path Issues)
+        run: dotnet restore ./TaskManagementAPI/TaskManagementAPI.sln
+        working-directory: ./TaskManagementAPI  # ✅ Ensure the correct directory is used
 
       - name: Build the Application (Ignore Failures)
-        run: dotnet build TaskManagementAPI.sln --no-restore || echo "Build failed, continuing with tests"
+        run: dotnet build ./TaskManagementAPI/TaskManagementAPI.sln --no-restore || echo "Build failed, continuing with tests"
+        working-directory: ./TaskManagementAPI
 
       - name: Run Unit Tests
-        run: dotnet test TaskManagementAPI.sln --no-build --verbosity normal
+        run: dotnet test ./TaskManagementAPI/TaskManagementAPI.sln --no-build --verbosity normal
+        working-directory: ./TaskManagementAPI
