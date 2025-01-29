@@ -11,7 +11,7 @@ on:
 jobs:
   build-and-test:
     runs-on: ubuntu-latest
-    
+
     steps:
       - name: Checkout Code
         uses: actions/checkout@v3
@@ -23,6 +23,9 @@ jobs:
 
       - name: Restore Dependencies
         run: dotnet restore
+
+      - name: Install Missing Packages (Workaround for Newtonsoft.Json Issue)
+        run: dotnet add package Newtonsoft.Json --version 13.0.1
 
       - name: Build the Application
         run: dotnet build --no-restore
