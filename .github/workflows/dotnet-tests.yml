@@ -22,17 +22,10 @@ jobs:
           dotnet-version: 8.0.x
 
       - name: Restore Dependencies
-        run: dotnet restore
-        working-directory: TaskManagementAPI  # Ensure commands run inside the project folder
-
-      - name: Install Missing Packages (Workaround for Newtonsoft.Json Issue)
-        run: dotnet add package Newtonsoft.Json --version 13.0.1
-        working-directory: TaskManagementAPI  # Ensure package is installed inside the correct project
+        run: dotnet restore TaskManagementAPI.sln  # ✅ Ensure dependencies are restored using the solution file
 
       - name: Build the Application
-        run: dotnet build --no-restore
-        working-directory: TaskManagementAPI  # Ensure build runs in the correct directory
+        run: dotnet build TaskManagementAPI.sln --no-restore  # ✅ Ensure build runs for the entire solution
 
       - name: Run Unit Tests
-        run: dotnet test --no-build --verbosity normal
-        working-directory: TaskManagementAPI.Tests  # Ensure tests run inside the test project directory
+        run: dotnet test TaskManagementAPI.sln --no-build --verbosity normal  # ✅ Run tests using the solution file
