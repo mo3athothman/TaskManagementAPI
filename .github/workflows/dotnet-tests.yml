@@ -21,17 +21,14 @@ jobs:
         with:
           dotnet-version: 8.0.x
 
-      - name: Verify Project Structure
-        run: ls -R  # ✅ This will list all files to confirm the .sln file location
+      - name: Verify Project Structure (Debugging Step)
+        run: ls -R  # ✅ This will print all files/folders to find TaskManagementAPI.sln
 
-      - name: Restore Dependencies (Fix Path Issues)
-        run: dotnet restore ./TaskManagementAPI/TaskManagementAPI.sln
-        working-directory: ./TaskManagementAPI  # ✅ Ensure the correct directory is used
+      - name: Restore Dependencies
+        run: dotnet restore TaskManagementAPI.sln  # ✅ Adjust this if the .sln file is inside a subfolder
 
       - name: Build the Application (Ignore Failures)
-        run: dotnet build ./TaskManagementAPI/TaskManagementAPI.sln --no-restore || echo "Build failed, continuing with tests"
-        working-directory: ./TaskManagementAPI
+        run: dotnet build TaskManagementAPI.sln --no-restore || echo "Build failed, continuing with tests"
 
       - name: Run Unit Tests
-        run: dotnet test ./TaskManagementAPI/TaskManagementAPI.sln --no-build --verbosity normal
-        working-directory: ./TaskManagementAPI
+        run: dotnet test TaskManagementAPI.sln --no-build --verbosity normal
